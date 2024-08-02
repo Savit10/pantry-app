@@ -2,7 +2,8 @@
 import { Box, Button, Stack, Typography, Modal, TextField } from "@mui/material"
 import { firestore } from '@/firebase'
 import { collection, query, getDoc, doc, setDoc, deleteDoc, getDocs } from "firebase/firestore";
-import { useEffect, useState } from "react"
+import { React, useEffect, useState } from "react"
+import { Cross, Minus, Add } from './YourComponents';
 
 const style = {
   position: 'absolute',
@@ -44,7 +45,6 @@ export default function Home() {
     snapshot.forEach(doc => {
       pantryItems.push({"name": doc.id, ...doc.data()})
     })
-    console.log(pantryItems)
     setPantry(pantryItems)
   }
   
@@ -52,11 +52,15 @@ export default function Home() {
   const removeItem = async (item) => {
     const docRef = doc(firestore, 'pantry', item)
     const docSnap = await getDoc(docRef)
-    if(docSnap.data().count > 1) {
+    if(docSnap.data().count > 0) {
       await setDoc(docRef, {count: docSnap.data().count - 1})
-    } else {
-      await deleteDoc(docRef)
     }
+    await update()
+  }
+
+  const deleteItem = async (item) => {
+    const docRef = doc(firestore, 'pantry', item)
+    await deleteDoc(docRef)
     await update()
   }
   useEffect(() => {
@@ -106,11 +110,13 @@ export default function Home() {
                 }
                 </Typography>
 
-                <Typography variant="h3" textAlign={'center'} >
-                  Quantity: {item.count}
+                
+              <Minus item={item} func={removeItem} />
+              <Typography variant="h3" textAlign={'center'} >
+                  {item.count}
                 </Typography>
-              
-              <Button variant="outlined" onClick={() => removeItem(item.name)}>Remove</Button>
+              <Add item={item} func={addItem} />
+              <Cross item={item} func={deleteItem} />
             </Box>
             ))}
         </Stack>
