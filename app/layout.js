@@ -1,6 +1,6 @@
 import { Inter } from "next/font/google";
 import "./globals.css";
-import {firebaseconfig} from "@/firebase.js";
+import {firebaseconfig} from "Pantry-App/pantry-app/firebase.js";
 
 const inter = Inter({ subsets: ["latin"] });
 
