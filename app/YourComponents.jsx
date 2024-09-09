@@ -26,7 +26,7 @@ const AnimatedSearchField = ({ searchTerm, onSearchChange }) => {
   };
 
   return (
-    <SearchContainer isopen={isOpen}>
+    <SearchContainer>
       {isOpen && (
         <TextField
           id="search-bar"

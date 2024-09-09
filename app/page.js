@@ -91,9 +91,7 @@ export default function Home() {
     setItemCount(event.target.value);
   }
 
-  const filteredPantry = pantry.filter(item => 
-    item.name.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  const filteredPantry =  searchTerm.length >= 3 ? pantry.filter(item => item.name.toLowerCase().includes(searchTerm.toLowerCase())) : pantry;
 
   useEffect(() => {
     update()
@@ -103,35 +101,16 @@ export default function Home() {
   
   return (
     <Box width="100vw"  height="100vh" display = {'flex'} bgcolor="#F0F0F0"justifyContent = {'center'} flexDirection={'column'} alignItems = {'center'} gap={2}>
-      {/* <Modal open={open} onClose={handleClose} aria-labelledby="modal-modal-title" aria-describedby="modal-modal-description">
-        <Box sx={style}>
-          <Typography id="modal-modal-title" variant="h6" component="h2" spacing={2}>
-            Add Item
-          </Typography>
-          <Stack width="100%" direction="row" spacing={2}>
-            <TextField id="filled-basic" label="Item Name" variant="filled" value={itemName} fullWidth onChange={(e) => setItemName(e.target.value)}/>
-            <Button variant="outlined"
-            onClick={() => {
-              addItem(itemName)
-              setItemName('')
-              handleClose()
-            }}>Add</Button>
-          </Stack>
-        </Box>
-      </Modal> 
-        <Stack direction="row" spacing={2}>
-        <Button variant="outlined" onClick={handleOpen}>Add Item</Button>
-      </Stack> */}
       <Box border = {'2px solid #333'}>
         <Box width="800px" height="100px" display="flex" justifyContent="center" alignItems="center" bgcolor={'#ADD8E6'}>
-          <Stack direction="row" spacing={3} fullWidth>
+          <Stack direction="row" spacing={3} >
             <Typography variant="h3" textAlign={'center'}> Pantry Items </Typography>
             <AnimatedSearchField searchTerm={searchTerm} onSearchChange={handleSearchChange} />
           </Stack>
         </Box>
 
         <Box width="800px" height="100px" display="flex" justifyContent="center" alignItems="center" bgcolor="#F0F0F0">
-          <Stack direction="row" spacing={6} fullWidth>
+          <Stack direction="row" spacing={6} >
             <Box display="flex" justifyContent="center" alignItems="center" gap={2}>
               <TextField id="add-item" label="Item Name" variant="filled" value={itemName} onChange={handleItemChange}/>
               <TextField id="add-count" label="Quantity" variant="filled" value={itemCount} onChange={handleCountChange}/>
